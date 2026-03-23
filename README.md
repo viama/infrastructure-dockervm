@@ -112,6 +112,15 @@ All containers attach to the `traefik_public` external Docker network (created s
 
 Home Assistant runs in `network_mode: host` for mDNS/device discovery. The Cloudflare Tunnel container provides remote HTTPS access without exposing ports externally.
 
+## Related repositories
+
+### Home Assistant config
+The HA application config (automations, scenes, blueprints, etc.) lives separately at:
+
+**[viama/homeassistant-config](https://github.com/viama/homeassistant-config)** → `/var/data/homeassistant/`
+
+The compose stack that runs HA is defined here in [`homeassistant/homeassistant.yml`](homeassistant/homeassistant.yml), with secrets in `homeassistant/.env` (see [`homeassistant/.env.example`](homeassistant/.env.example)).
+
 ## Excluded app repos
 
 Some apps manage their own git repos separately (e.g. Komodo-managed stacks). If any subdirectory gains its own `.git` folder in future, add it to `.gitignore` to prevent it being tracked as part of this infra repo.
