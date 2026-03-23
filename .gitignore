@@ -1,0 +1,30 @@
+# Secrets and env files
+*.env
+.env
+!*.env.example
+
+# TLS certificates and keys
+*.key
+*.pem
+*.p12
+*.pfx
+acme.json
+
+# Database files
+*.db
+*.mv.db
+*.sql
+
+# Log files
+*.log
+
+# Claude
+.claude/
+
+# Backup files
+* copy.*
+*.bak
+*.old
+
+# openwakeword runtime config contains credentials
+openwakeword/config.yaml

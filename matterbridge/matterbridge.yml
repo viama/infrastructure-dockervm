@@ -1,0 +1,14 @@
+services:
+
+    matterbridge:
+      container_name: matterbridge
+      image: luligu/matterbridge:latest # Matterbridge image with the latest tag
+      network_mode: "host"
+      environment:
+      - TZ=Europe/London
+      restart: always # Ensures the container always restarts automatically
+      volumes:
+        - "/var/data/matterbridge/plugins:/root/Matterbridge" # Mounts the Matterbridge plugin directory
+        - "/var/data/matterbridge:/root/.matterbridge" # Mounts the Matterbridge storage directory
+      labels:
+        - "traefik.enable=false"

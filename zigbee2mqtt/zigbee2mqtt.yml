@@ -1,0 +1,26 @@
+services:
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt:latest
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/data/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    environment:
+      - TZ=Europe/London
+    devices:
+      # Make sure this matches your adapter location
+      - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_b675bb07cc60ec1185b53b7625bfaa52-if00-port0:/dev/ttyUSB0
+    networks:
+      - traefik_public
+    labels:
+      - "traefik.http.routers.zigbee.rule=Host(`zigbee.viama.co.uk`)"
+      - "traefik.http.routers.zigbee.entrypoints=https"
+      - "traefik.http.services.zigbee.loadbalancer.server.port=8080"
+
+networks:
+  traefik_public:
+    external: true

@@ -1,0 +1,61 @@
+name: traefik-dockervm
+services:
+  traefik:
+    container_name: traefik
+    environment:
+      CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
+      CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
+    image: traefik:latest
+    labels:
+      traefik.docker.network: traefik_public
+      traefik.http.routers.api.entrypoints: https
+      traefik.http.routers.api.rule: Host(`traefik-dockervm.viama.co.uk`)
+      traefik.http.routers.api.service: api@internal
+      traefik.http.routers.api.tls: "true"
+      traefik.http.routers.api.tls.certresolver: main
+      traefik.http.routers.api.tls.domains[0].main: viama.co.uk
+      traefik.http.routers.api.tls.domains[0].sans: '*.viama.co.uk'
+      traefik.http.services.dummy.loadbalancer.server.port: "9999"
+    networks:
+      traefik_public: null
+    ports:
+      - mode: host
+        target: 80
+        published: "80"
+        protocol: tcp
+      - mode: host
+        target: 443
+        published: "443"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/data/config/traefik
+        target: /etc/traefik
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/data/config/traefik/traefik.log
+        target: /var/log/traefik.log
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/data/config/traefik/acme.json
+        target: /acme.json
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/data/config/traefik/traefik.toml
+        target: /traefik.toml
+        bind:
+          create_host_path: true
+networks:
+  traefik_public:
+    name: traefik_public
+    external: true

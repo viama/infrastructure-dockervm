@@ -1,0 +1,38 @@
+name: komodo
+
+services:
+
+  periphery:
+    image: ghcr.io/moghtech/komodo-periphery:latest
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      traefik.enable: "false"
+    security_opt:
+      - apparmor=unconfined
+    cap_add:
+      - SYS_PTRACE
+    restart: unless-stopped
+ #   logging:
+ #     driver: ${COMPOSE_LOGGING_DRIVER:-local}
+    env_file: ./komodo.env
+    networks:
+      - traefik_public
+    volumes:
+      ## Mount external docker socket
+      - /var/run/docker.sock:/var/run/docker.sock
+      ## Allow Periphery to see processes outside of container
+      - /proc:/proc
+      ##give access to config directory
+      - /var/data/config:/var/data/config/
+      ## Specify the Periphery agent root directory.
+      ## Must be the same inside and outside the container,
+      ## or docker will get confused. See https://github.com/moghtech/komodo/discussions/180.
+      ## Default: /etc/komodo.
+      - /var/data/komodo/app:/etc/komodo
+    ports:
+      - 8120:8120
+
+networks:
+  traefik_public:
+    name: traefik_public
+    external: true

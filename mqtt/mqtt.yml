@@ -1,0 +1,19 @@
+services:
+  mqtt:
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    #  - "9002:9002"
+      - "8883:8883"
+    networks: 
+      - traefik_public
+    volumes:
+       - "/var/data/mqtt/config:/mosquitto/config/"
+       - "/var/data/mqtt/log:/mosquitto/log/"
+       - "/var/data/mqtt/data:/mosquitto/data"
+    labels:
+       - "traefik.enable=false"
+networks:
+  traefik_public:
+    external: true

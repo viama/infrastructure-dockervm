@@ -1,0 +1,97 @@
+
+services:
+
+  homeassistant:
+    container_name: homeassistant
+    restart: unless-stopped
+    image: homeassistant/home-assistant
+    network_mode: host
+    dns_search: viama.co.uk
+    volumes:
+      - /var/data/homeassistant/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Europe/London
+
+    labels:
+      - "traefik.enable=false"
+    #  - "traefik.http.routers.homeassistant2.rule=Host(`homeassistant2.viama.co.uk`)"
+    #  - "traefik.http.routers.homeassistant2.entrypoints=https"
+    #  - "traefik.http.routers.homeassistant2.tls=true"
+    #  - "traefik.http.routers.homeassistant2.tls.certresolver=main"
+    #  - "traefik.http.services.homeassistant2.loadbalancer.server.port=8123"
+    #  - "traefik.http.routers.homeassistant2.middlewares=forward-auth"
+
+  cloudflare-tunnel:
+    restart: unless-stopped
+    container_name: hass_cloudflare_tunnel
+    image: cloudflare/cloudflared
+    networks:
+      - traefik_public    
+    volumes:
+      - /var/data/cloudflared:/etc/cloudflared  
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    labels: # traefik labels
+      - "traefik.enable=false"
+      
+  #whisper:
+  #  container_name: whisper
+  #  image: rhasspy/wyoming-whisper
+  #  #command: --model base-int8 --language fr
+  #  command: --model tiny-int8 --language en
+  #  privileged: true
+  #  restart: unless-stopped
+  #  environment:
+  #    - TZ=Europe/London
+  #  networks:
+  #    - traefik_public
+  #  volumes:
+  #    - /var/data/whisper:/data
+  #  ports:
+  #    - 10300:10300
+  #  labels: # traefik labels
+  #    - "traefik.enable=false"
+
+  #piper:
+  #  container_name: piper
+  #  image: rhasspy/wyoming-piper
+  #  command: --voice en-gb-southern_english_female-low
+  #  privileged: true
+  #  restart: unless-stopped
+  #  networks:
+  #    - traefik_public
+  #  environment:
+  #    - TZ=Europe/London
+  #  volumes:
+  #    - /var/data/piper:/data
+  #  ports:
+  #    - 10200:10200
+  #  labels: # traefik labels
+  #    - "traefik.enable=false"
+
+  #openwakeword:
+  #  container_name: openwakeword
+  #  image: rhasspy/wyoming-openwakeword
+  #  volumes:
+  #    - /var/data/openwakeword/custom:/custom
+  #    - /var/data/openwakeword/config:/config
+  #    - /var/data/openwakeword/data:/data
+  #  networks:
+  #    - traefik_public
+  #  environment:
+  #    - TZ="Europe/London"
+  #  ports:
+  #    - 10400:10400
+  #    - 10400:10400/udp
+  #  command: --preload-model 'ok_nabu' --custom-model-dir /custom
+  #  restart: unless-stopped
+  #  labels: # traefik labels
+  #    - "traefik.enable=false"
+
+networks:
+  traefik_public:
+    external: true
