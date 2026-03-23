@@ -117,7 +117,7 @@ Home Assistant runs in `network_mode: host` for mDNS/device discovery. The Cloud
 ### Home Assistant config
 The HA application config (automations, scenes, blueprints, etc.) lives separately at:
 
-**[viama/homeassistant-config](https://github.com/viama/homeassistant-config)** → `/var/data/homeassistant/`
+**[viama/homeassistant-data-config](https://github.com/viama/homeassistant-data-config)** → `/var/data/homeassistant/`
 
 The compose stack that runs HA is defined here in [`homeassistant/homeassistant.yml`](homeassistant/homeassistant.yml), with secrets in `homeassistant/.env` (see [`homeassistant/.env.example`](homeassistant/.env.example)).
 
