@@ -1,0 +1,29 @@
+{
+  "name": "matterbridge-hass",
+  "type": "DynamicPlatform",
+  "host": "wss://dockervm.viama.co.uk:8123",
+  "certificatePath": "",
+  "rejectUnauthorized": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkMDA0NTg2M2ExYTc0YWQ2OGI5MDJlMzFmNmFlNWVmNCIsImlhdCI6MTc2NDQyODUxOCwiZXhwIjoyMDc5Nzg4NTE4fQ.p6Xv4pL2u7nLlIUSqPq9Txnlv7AAjin4PBtyARUEMfo",
+  "reconnectTimeout": 60,
+  "reconnectRetries": 10,
+  "filterByArea": "",
+  "filterByLabel": "",
+  "whiteList": [
+    "asdasd",
+    "Office Airon Plug"
+  ],
+  "blackList": [],
+  "entityBlackList": [],
+  "splitEntities": [],
+  "splitNameStrategy": "Entity name",
+  "namePostfix": "",
+  "postfix": "",
+  "airQualityRegex": "",
+  "enableServerRvc": true,
+  "debug": false,
+  "unregisterOnShutdown": false,
+  "applyFiltersToDeviceEntities": false,
+  "version": "1.0.11",
+  "deviceEntityBlackList": {}
+}
