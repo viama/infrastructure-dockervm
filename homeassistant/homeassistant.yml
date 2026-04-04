@@ -1,4 +1,3 @@
-
 services:
 
   homeassistant:
@@ -14,30 +13,28 @@ services:
       - PUID=0
       - PGID=0
       - TZ=Europe/London
-
     labels:
       - "traefik.enable=false"
-    #  - "traefik.http.routers.homeassistant2.rule=Host(`homeassistant2.viama.co.uk`)"
-    #  - "traefik.http.routers.homeassistant2.entrypoints=https"
-    #  - "traefik.http.routers.homeassistant2.tls=true"
-    #  - "traefik.http.routers.homeassistant2.tls.certresolver=main"
-    #  - "traefik.http.services.homeassistant2.loadbalancer.server.port=8123"
-    #  - "traefik.http.routers.homeassistant2.middlewares=forward-auth"
+      - "dockflare.enable=true"
+      - "dockflare.hostname=hass.viama.co.uk"
+      - "dockflare.service=http://dockervm.viama.co.uk:8123"
+      - "dockflare.zonename=viama.co.uk"
+      - "dockflare.access.groups=home-ip-bypass,google-auth"
+      - "dockflare.access.app_launcher_visible=true"
 
-  cloudflare-tunnel:
+  ha-mcp:
+    container_name: ha-mcp
+    image: ghcr.io/homeassistant-ai/ha-mcp:latest
     restart: unless-stopped
-    container_name: hass_cloudflare_tunnel
-    image: cloudflare/cloudflared
-    networks:
-      - traefik_public    
-    volumes:
-      - /var/data/cloudflared:/etc/cloudflared  
-    command: tunnel run
+    network_mode: host
+    command: ha-mcp-web
     environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-    labels: # traefik labels
+      - HOMEASSISTANT_URL=http://localhost:8123
+    env_file:
+      - ha-mcp.env
+    labels:
       - "traefik.enable=false"
-      
+
   #whisper:
   #  container_name: whisper
   #  image: rhasspy/wyoming-whisper
@@ -91,7 +88,3 @@ services:
   #  restart: unless-stopped
   #  labels: # traefik labels
   #    - "traefik.enable=false"
-
-networks:
-  traefik_public:
-    external: true
