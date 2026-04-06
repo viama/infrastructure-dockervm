@@ -28,3 +28,4 @@ acme.json
 
 # openwakeword runtime config contains credentials
 openwakeword/config.yaml
+claude-memory/
