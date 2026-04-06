@@ -17,10 +17,9 @@ services:
     networks:
       - traefik_public
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.zigbee.rule=Host(`zigbee.viama.co.uk`)"
       - "traefik.http.routers.zigbee.entrypoints=https"
-      - "traefik.http.routers.zigbee.tls=true"
-      - "traefik.http.routers.zigbee.tls.certresolver=main"
       - "traefik.http.services.zigbee.loadbalancer.server.port=8080"
 
 networks:

@@ -39,6 +39,7 @@
 
 # Docker Traefik provider
 [providers.docker]
+  exposedByDefault = false
   endpoint = "unix:///var/run/docker.sock"
   watch = true
 
