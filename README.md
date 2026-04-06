@@ -70,7 +70,7 @@ docker compose --env-file komodo/komodo.env -f komodo/komodo.yml up -d
 | Stack | Secret file | Secrets |
 |-------|-------------|---------|
 | homeassistant | `homeassistant/.env` | `TUNNEL_TOKEN` — Cloudflare Tunnel token |
-| traefik | `traefik/.env` | `CLOUDFLARE_EMAIL`, `CLOUDFLARE_API_KEY` — DNS challenge for Let's Encrypt wildcard certs |
+| traefik | `traefik/.env` | `CF_DNS_API_TOKEN` — DNS challenge for Let's Encrypt wildcard certs |
 | komodo | `komodo/komodo.env` | `KOMODO_DB_PASSWORD`, `KOMODO_PASSKEY`, `KOMODO_WEBHOOK_SECRET`, `KOMODO_JWT_SECRET` |
 | openwakeword | `openwakeword/config.yaml` | MQTT broker password |
 
