@@ -1,0 +1,18 @@
+services:
+  frigate-notify:
+    container_name: frigate-notify
+    image: ghcr.io/0x2142/frigate-notify:latest
+    restart: unless-stopped
+    networks:
+      - traefik_public
+    environment:
+      - TZ=Europe/London
+      - FN_CONFIGFILE=/app/config/config.yml
+    volumes:
+      - /var/data/frigate-notify:/app/config
+    labels:
+      - "traefik.enable=false"
+
+networks:
+  traefik_public:
+    external: true
