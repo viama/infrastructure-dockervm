@@ -1,0 +1,24 @@
+app:
+  mode: reviews
+
+frigate:
+  server: camsl.viama.co.uk
+  mqtt:
+    enabled: true
+    server: mqtt
+    port: 1883
+    username: admin
+    password: ${MQTT_PASSWORD}
+
+alerts:
+  general:
+    title: Frigate Alert
+    nosnap: drop
+
+  labels:
+    allow:
+      - person
+
+  discord:
+    enabled: true
+    webhook: ${DISCORD_WEBHOOK}

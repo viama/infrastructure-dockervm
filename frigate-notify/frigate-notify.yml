@@ -5,11 +5,13 @@ services:
     restart: unless-stopped
     networks:
       - traefik_public
+    env_file:
+      - frigate-notify.env
     environment:
       - TZ=Europe/London
       - FN_CONFIGFILE=/app/config/config.yml
     volumes:
-      - /var/data/frigate-notify:/app/config
+      - /var/data/config/frigate-notify:/app/config
     labels:
       - "traefik.enable=false"
 
