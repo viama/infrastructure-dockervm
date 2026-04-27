@@ -8,7 +8,7 @@
 # Write out Traefik logs
 [log]
   level = "DEBUG"
-  filePath = "/var/log/traefik.log"
+  filePath = "/etc/traefik/traefik.log"
 
 [entryPoints.http]
   address = ":80"

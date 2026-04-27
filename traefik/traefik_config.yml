@@ -40,11 +40,6 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: /var/data/config/traefik/traefik.log
-        target: /var/log/traefik.log
-        bind:
-          create_host_path: true
-      - type: bind
         source: /var/data/config/traefik/acme.json
         target: /acme.json
         bind:
